@@ -6,7 +6,7 @@
 // can be set to either depending on said defines.
 
 // Total size of input pin array
-#define INPUT_COUNT              7
+#define INPUT_COUNT              9
 
 // Signals whether train A is in the platform
 // using an infrared sensor under the track.
@@ -26,10 +26,12 @@
 #define TRAIN_ON_SLOW_Y_PIN     11
 // Signals the real position of the points labelled
 // X in order to confirm correct behaviour.
-#define POINT_X_FEEDBACK_PIN    12
+#define POINT_X_PLAT_A_FEEDBACK_PIN 12
+#define POINT_X_PLAT_B_FEEDBACK_PIN A0
 // Signals the real position of the points labelled
 // Y in order to confirm correct behaviour.
-#define POINT_Y_FEEDBACK_PIN    A0
+#define POINT_Y_PLAT_A_FEEDBACK_PIN A1
+#define POINT_Y_PLAT_B_FEEDBACK_PIN A2
 
 // Output pins. Will default to HIGH on startup
 
@@ -62,8 +64,10 @@
 // If CONTROL == 1, A == 1 and B == 0
 #define INVERT_X_POINT_CONTROL  0
 #define INVERT_Y_POINT_CONTROL  0
-#define INVERT_X_POINT_FEEDBACK 0
-#define INVERT_Y_POINT_FEEDBACK 0
+#define INVERT_X_PLAT_A_POINT_FEEDBACK 0
+#define INVERT_X_PLAT_B_POINT_FEEDBACK 0
+#define INVERT_Y_PLAT_A_POINT_FEEDBACK 0
+#define INVERT_Y_PLAT_B_POINT_FEEDBACK 0
 
 // Sets the value of TRACK_POWER_PIN which makes 
 // the locomotive move
@@ -90,8 +94,10 @@ static const int input_pins[INPUT_COUNT] = {
   TRAIN_ON_LINE_PIN,
   TRAIN_ON_SLOW_X_PIN,
   TRAIN_ON_SLOW_Y_PIN,
-  POINT_X_FEEDBACK_PIN,
-  POINT_Y_FEEDBACK_PIN
+  POINT_X_PLAT_A_FEEDBACK_PIN,
+  POINT_X_PLAT_B_FEEDBACK_PIN,
+  POINT_Y_PLAT_A_FEEDBACK_PIN,
+  POINT_Y_PLAT_B_FEEDBACK_PIN
 };
 
 // Array of outputs for ease of setup code

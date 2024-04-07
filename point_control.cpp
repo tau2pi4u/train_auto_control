@@ -11,10 +11,12 @@ PointsDirection g_targetYPointStatus;
 // train A or B. Returns which train the point is set for.
 PointsDirection GetXPointFeedbackStatus()
 {
-  bool xPinFeedback = digitalRead(POINT_X_FEEDBACK_PIN) ^ INVERT_X_POINT_FEEDBACK;
-  PointsDirection feedback = xPinFeedback ? PointsDirection::ForTrainA : PointsDirection::ForTrainB;
-
-  return feedback;
+  bool xPlatAPinFeedback = digitalRead(POINT_X_PLAT_A_FEEDBACK_PIN) ^ INVERT_X_PLAT_A_POINT_FEEDBACK;
+  bool xPlatBPinFeedback = digitalRead(POINT_X_PLAT_B_FEEDBACK_PIN) ^ INVERT_X_PLAT_B_POINT_FEEDBACK;
+  
+  if (xPlatAPinFeedback && !xPlatBPinFeedback) { return PointsDirection::ForTrainA; }
+  if (!xPlatAPinFeedback && xPlatBPinFeedback) { return PointsDirection::ForTrainB; }
+  return PointsDirection::Invalid;
 }
 
 // Reads the input assigned as the Y direction
@@ -23,9 +25,12 @@ PointsDirection GetXPointFeedbackStatus()
 // train A or B. Returns which train the point is set for.
 PointsDirection GetYPointFeedbackStatus()
 {
-  bool yPinFeedback = digitalRead(POINT_Y_FEEDBACK_PIN) ^ INVERT_Y_POINT_FEEDBACK;
-  PointsDirection feedback = yPinFeedback ? PointsDirection::ForTrainA : PointsDirection::ForTrainB;
-  return feedback;
+  bool yPlatAPinFeedback = digitalRead(POINT_Y_PLAT_A_FEEDBACK_PIN) ^ INVERT_Y_PLAT_A_POINT_FEEDBACK;
+  bool yPlatBPinFeedback = digitalRead(POINT_Y_PLAT_B_FEEDBACK_PIN) ^ INVERT_Y_PLAT_B_POINT_FEEDBACK;
+
+  if (yPlatAPinFeedback && !yPlatBPinFeedback) { return PointsDirection::ForTrainA; }
+  if (!yPlatAPinFeedback && yPlatBPinFeedback) { return PointsDirection::ForTrainB; }
+  return PointsDirection::Invalid;
 }
 
 // Returns true if the points are both set as expected 

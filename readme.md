@@ -12,6 +12,9 @@ Each set of switches also has an input to provide feedback of it's real position
 
 The track power and state of the switches are controlled by the arduino.
 
+## Setup
+Clone the repository and use the arduino ide to compile. If you end up moving the ino, make sure that the all the .h and .cpp files are moved to the same folder as the .ino file.
+
 ## I/O
 ### Inputs
 The arduino receives information about the state of the layout using 7 inputs. These are active low unless stated otherwise.
@@ -38,11 +41,17 @@ Provides feedback via a current detector. If it detects current then it indicate
 #### TRAIN_ON_SLOW_Y
 Provides feedback via a current detector. If it detects current then it indicates that the track segment `SLOW_Y` is occupied by a locomotive. The input should be debounced in hardware and is required to remain active for sufficient time that it overlaps with adjacent track segments, i.e. when moving between both track segments, at least one of them should always be active. The pin it is read from is controlled by `TRAIN_ON_SLOW_Y_PIN` in `defines.h`.
 
-#### POINT_X_FEEDBACK
-Provides feedback on the current state of Points X. The state when the points are not locked is currently undefined and this may require fixing. If the feedback when the points are set for platform A is low, then `INVERT_X_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_X_FEEDBACK_PIN` in `defines.h`.
+#### POINT_X_PLAT_A_FEEDBACK
+Provides feedback on the current state of Points X. If the feedback when the points are set for platform A is low, then `INVERT_X_PLAT_A_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_X_PLAT_A_FEEDBACK_PIN` in `defines.h`.
 
-#### POINT_Y_FEEDBACK
-Provides feedback on the current state of Points Y. The state when the points are not locked is currently undefined and this may require fixing. If the feedback when the points are set for platform A is low, then `INVERT_Y_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_Y_FEEDBACK_PIN` in `defines.h`.
+#### POINT_X_PLAT_B_FEEDBACK
+Provides feedback on the current state of Points X. If the feedback when the points are set for platform B is low, then `INVERT_X_PLAT_B_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_X_PLAT_B_FEEDBACK_PIN` in `defines.h`.
+
+#### POINT_Y_PLAT_A_FEEDBACK
+Provides feedback on the current state of Points Y. If the feedback when the points are set for platform A is low, then `INVERT_Y_PLAT_A_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_Y_PLAT_A_FEEDBACK_PIN` in `defines.h`.
+
+#### POINT_Y_PLAT_B_FEEDBACK
+Provides feedback on the current state of Points Y. If the feedback when the points are set for platform B is low, then `INVERT_Y_PLAT_B_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_Y_PLAT_B_FEEDBACK_PIN` in `defines.h`.
 
 ### Outputs
 
