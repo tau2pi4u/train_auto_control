@@ -56,7 +56,7 @@
 // Control a seven segment display to indicate
 // error states. Uses ERROR_CODE_BITS pins starting
 // at base ERROR_CODE_BASE
-#define ERROR_CODE_BASE      A1
+#define ERROR_CODE_BASE      A3
 #define ERROR_CODE_BITS      3
 
 // Control whether points are A or B when 0 or 1
