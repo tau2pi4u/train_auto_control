@@ -44,6 +44,9 @@ void setup() {
   // Enables serial if _DEBUG is defined
   DEBUG_SERIAL(9600);
 
+  // 7s delay to allow for startup of IR detectors
+  delay(7000);
+
   g_previousStatus = TrainStatus::None;
   g_currentStatus  = TrainStatus::None;
   HandleNextState();
