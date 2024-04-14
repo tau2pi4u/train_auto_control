@@ -4,6 +4,8 @@ TrainStatus g_previousStatus;
 TrainStatus g_currentStatus;
 TrainStatus g_nextStatus;
 
+uint32_t g_departureTime = INVALID_DEPARTURE_TIME;
+
 // Returns true if TRAIN_A_IN_PLATFORM_PIN is
 // low (inputs are active low), otherwise false.
 bool TrainAInPlatform()
@@ -44,6 +46,22 @@ bool TrainOnSlowX()
 bool TrainOnSlowY()
 {
     return !digitalRead(TRAIN_ON_SLOW_Y_PIN);
+}
+
+// Calculates the departure time using an analogue input
+// to control how long to wait
+uint32_t CalculateDepartureTime()
+{
+    // Input is 10 bits so could use a uint16_t here, but
+    // we'd have to immediately cast to a uint32_t to not
+    // have overflow issues in the dwell time calculation
+    uint32_t analogueIn = analogRead(PLATFORM_DWELL_TIME_PIN);
+    // Divide should be optimised to a bit shift - could do
+    // 1023 as that's the max real value but divides by non
+    // powers of 2 are more expensive.
+    uint32_t dwellTime = (PLATFORM_DWELL_TIME * analogueIn) / 1024;
+
+    return millis() + dwellTime;
 }
 
 // Function for figuring out the start up status.
@@ -116,10 +134,25 @@ TrainStatus GetCurrentTrainStatus()
 // If points are invalid, default to train A.
 TrainStatus NextStatusForBothInPlatform()
 {
+    if (g_departureTime == INVALID_DEPARTURE_TIME)
+    {
+        g_departureTime = CalculateDepartureTime();
+    }
+
 	if (!TrainAInPlatform() || !TrainBInPlatform())
 	{
 		return TrainStatus::TrainMissing;
 	}
+
+    if(millis() < g_departureTime)
+    {
+        return TrainStatus::BothInPlatform;
+    }
+    else
+    {
+        // We are departing, so reset departure time
+        g_departureTime = INVALID_DEPARTURE_TIME;
+    }
 
 	if (g_previousStatus == TrainStatus::TrainAArrival)
 	{

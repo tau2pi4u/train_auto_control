@@ -6,7 +6,7 @@
 // can be set to either depending on said defines.
 
 // Total size of input pin array
-#define INPUT_COUNT              9
+#define INPUT_COUNT              10
 
 // Signals whether train A is in the platform
 // using an infrared sensor under the track.
@@ -32,6 +32,8 @@
 // Y in order to confirm correct behaviour.
 #define POINT_Y_PLAT_A_FEEDBACK_PIN A2
 #define POINT_Y_PLAT_B_FEEDBACK_PIN A1
+// Analogue input to control how long trains wait in platforms.
+#define PLATFORM_DWELL_TIME_PIN A6
 
 // Output pins. Will default to HIGH on startup
 
@@ -85,6 +87,11 @@
 #define POINT_WAIT_COUNT  100
 #define POINT_WAIT_PERIOD 500
 
+// Control for maximum wait time in ms. Actual wait time will be
+// (IN_VOLTS * PLATFORM_DWELL_TIME) / HIGH_VOLTS 
+// Defaults to two minutes 
+#define PLATFORM_DWELL_TIME (2*60*1000)
+
 // Array of inputs for ease of setup code
 // New inputs will need to be added here,
 // with an appropriate increment to INPUT_COUNT
@@ -97,7 +104,8 @@ static const int input_pins[INPUT_COUNT] = {
   POINT_X_PLAT_A_FEEDBACK_PIN,
   POINT_X_PLAT_B_FEEDBACK_PIN,
   POINT_Y_PLAT_A_FEEDBACK_PIN,
-  POINT_Y_PLAT_B_FEEDBACK_PIN
+  POINT_Y_PLAT_B_FEEDBACK_PIN,
+  PLATFORM_DWELL_TIME_PIN
 };
 
 // Array of outputs for ease of setup code

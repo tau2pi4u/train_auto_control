@@ -23,8 +23,11 @@ The arduino receives information about the state of the layout using 7 inputs. T
 * TRAIN_ON_LINE
 * TRAIN_ON_SLOW_X
 * TRAIN_ON_SLOW_Y
-* POINT_X_FEEDBACK
-* POINT_Y_FEEDBACK
+* POINT_X_PLAT_A_FEEDBACK
+* POINT_X_PLAT_B_FEEDBACK
+* POINT_Y_PLAT_A_FEEDBACK
+* POINT_Y_PLAT_B_FEEDBACK
+* PLATFORM_DWELL_TIME
 
 #### TRAIN_A_IN_PLATFORM
 Provides feedback via an infrared sensor under the track in platform A. If the sensor detects an object above it, it goes low. The pin it is read from is controlled by `TRAIN_A_IN_PLATFORM_PIN` in `defines.h`.
@@ -52,6 +55,9 @@ Provides feedback on the current state of Points Y. If the feedback when the poi
 
 #### POINT_Y_PLAT_B_FEEDBACK
 Provides feedback on the current state of Points Y. If the feedback when the points are set for platform B is low, then `INVERT_Y_PLAT_B_POINT_FEEDBACK` in `defines.h` should be set to 0, else it should be set to 1. The pin from which it is read is set by `POINT_Y_PLAT_B_FEEDBACK_PIN` in `defines.h`.
+
+#### PLATFORM_DWELL_TIME
+Controls how long the train waits in the platform before departing. `PLATFORM_DWELL_TIME` sets the maximum dwell time in milliseconds, and `PLATFORM_DWELL_TIME_PIN` controls what fraction of that time it will wait. If it is 0V, then it will leave immediately, if it is 5V, it will wait `PLATFORM_DWELL_TIME` ms. These can be adjusted in `defines.h`.
 
 ### Outputs
 
