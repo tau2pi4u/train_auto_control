@@ -26,12 +26,12 @@
 #define TRAIN_ON_SLOW_Y_PIN     11
 // Signals the real position of the points labelled
 // X in order to confirm correct behaviour.
-#define POINT_X_PLAT_A_FEEDBACK_PIN 12
-#define POINT_X_PLAT_B_FEEDBACK_PIN A0
+#define POINT_X_PLAT_A_FEEDBACK_PIN A0
+#define POINT_X_PLAT_B_FEEDBACK_PIN 12
 // Signals the real position of the points labelled
 // Y in order to confirm correct behaviour.
-#define POINT_Y_PLAT_A_FEEDBACK_PIN A1
-#define POINT_Y_PLAT_B_FEEDBACK_PIN A2
+#define POINT_Y_PLAT_A_FEEDBACK_PIN A2
+#define POINT_Y_PLAT_B_FEEDBACK_PIN A1
 
 // Output pins. Will default to HIGH on startup
 
@@ -62,8 +62,8 @@
 // Control whether points are A or B when 0 or 1
 // If CONTROL == 0, A == 0 and B == 1
 // If CONTROL == 1, A == 1 and B == 0
-#define INVERT_X_POINT_CONTROL  0
-#define INVERT_Y_POINT_CONTROL  0
+#define INVERT_X_POINT_CONTROL  1
+#define INVERT_Y_POINT_CONTROL  1
 #define INVERT_X_PLAT_A_POINT_FEEDBACK 0
 #define INVERT_X_PLAT_B_POINT_FEEDBACK 0
 #define INVERT_Y_PLAT_A_POINT_FEEDBACK 0
@@ -71,11 +71,11 @@
 
 // Sets the value of TRACK_POWER_PIN which makes 
 // the locomotive move
-#define TRACK_POWER 0
+#define TRACK_POWER 1
 // Sets the value of TRACK_DIRECTION_PIN which 
 // makes the train A move in the forward
 // direction
-#define FORWARD     1
+#define FORWARD     0
 // Sets the value of TRACK_FAST_PIN which makes
 // the locomotive move at the higher speed
 #define TRACK_FAST  1

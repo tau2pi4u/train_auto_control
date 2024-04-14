@@ -27,7 +27,7 @@ void setup() {
   for (int i = 0; i < OUTPUT_COUNT; ++i)
   {
     pinMode(output_pins[i], OUTPUT);
-    digitalWrite(output_pins[i], HIGH);
+    digitalWrite(output_pins[i], !TRACK_POWER);
   }
 
   // If track power is changed to be active high
