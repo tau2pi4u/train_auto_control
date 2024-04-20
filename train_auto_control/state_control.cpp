@@ -164,7 +164,7 @@ TrainStatus NextStatusForBothInPlatform()
     else
     {
         // We are departing, so reset departure time
-        DEBUG_PRINT("Time to depart - resetting departure time!");
+        DEBUG_PRINTLN("Time to depart - resetting departure time!");
         g_departureTime = INVALID_DEPARTURE_TIME;
     }
 
