@@ -55,13 +55,25 @@ uint32_t CalculateDepartureTime()
     // Input is 10 bits so could use a uint16_t here, but
     // we'd have to immediately cast to a uint32_t to not
     // have overflow issues in the dwell time calculation
-    uint32_t analogueIn = analogRead(PLATFORM_DWELL_TIME_PIN);
+    uint32_t analogIn = analogRead(PLATFORM_DWELL_TIME_PIN);
+
+    DEBUG_PRINT("Reading analog in: "); DEBUG_PRINTLN(analogIn);
     // Divide should be optimised to a bit shift - could do
     // 1023 as that's the max real value but divides by non
     // powers of 2 are more expensive.
-    uint32_t dwellTime = (PLATFORM_DWELL_TIME * analogueIn) / 1024;
+    uint32_t dwellTime = (PLATFORM_DWELL_TIME * analogIn) / 1024;
 
-    return millis() + dwellTime;
+    DEBUG_PRINT("Dwell time set to: "); DEBUG_PRINT(dwellTime); DEBUG_PRINTLN("ms");
+
+    uint32_t currentTime = millis();
+
+    DEBUG_PRINT("Current time: "); DEBUG_PRINTLN(currentTime);
+
+    uint32_t departureTime = currentTime + dwellTime;
+
+    DEBUG_PRINT("Departure time: "); DEBUG_PRINTLN(departureTime);
+
+    return departureTime;
 }
 
 // Function for figuring out the start up status.
@@ -146,11 +158,13 @@ TrainStatus NextStatusForBothInPlatform()
 
     if(millis() < g_departureTime)
     {
+        DEBUG_PRINT(millis()); DEBUG_PRINT(" < "); DEBUG_PRINTLN(g_departureTime);
         return TrainStatus::BothInPlatform;
     }
     else
     {
         // We are departing, so reset departure time
+        DEBUG_PRINT("Time to depart - resetting departure time!");
         g_departureTime = INVALID_DEPARTURE_TIME;
     }
 
