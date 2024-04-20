@@ -90,7 +90,7 @@
 // Control for maximum wait time in ms. Actual wait time will be
 // (IN_VOLTS * PLATFORM_DWELL_TIME) / HIGH_VOLTS 
 // Defaults to two minutes 
-#define PLATFORM_DWELL_TIME (2*60*1000)
+#define PLATFORM_DWELL_TIME (2ul*60ul*1000ul)
 
 // Array of inputs for ease of setup code
 // New inputs will need to be added here,
