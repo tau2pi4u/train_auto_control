@@ -123,7 +123,7 @@ static const int output_pins[OUTPUT_COUNT] = {
 // enable feedback via serial and slow down the 
 // main loop a bit
 
-#define _DEBUG 1
+//#define _DEBUG 1
 #if defined(_DEBUG)
 #define DEBUG_SERIAL(baud) Serial.begin(baud)
 #define DEBUG_PRINT(to_print) Serial.print(to_print)
