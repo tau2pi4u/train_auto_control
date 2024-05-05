@@ -5,8 +5,8 @@
 #include "defines.h"
 #include "enums.h"
 
-PointsDirection GetXPointFeedbackStatus();
-PointsDirection GetYPointFeedbackStatus();
+PointsDirection GetXPointFeedbackStatus(uint16_t tries = POINT_TRIES);
+PointsDirection GetYPointFeedbackStatus(uint16_t tries = POINT_TRIES);
 bool PointsMatch();
 PointsDirection GetCurrentPointDirection();
 bool PointsSetCorrectly(TrainStatus current);

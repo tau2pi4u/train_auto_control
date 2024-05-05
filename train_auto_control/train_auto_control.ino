@@ -14,7 +14,9 @@ void HandleNextState()
   DEBUG_PRINT("Next:     "); DEBUG_PRINTLN(StateToString(g_nextStatus));
   TransitionState();
 
-  DEBUG_DELAY(1000);
+  WriteError();
+
+  //DEBUG_DELAY(1000);
 }
 
 void setup() {
@@ -41,8 +43,8 @@ void setup() {
     digitalWrite(ERROR_CODE_BASE + i, LOW);
   }
 
-  // Enables serial if _DEBUG is defined
-  DEBUG_SERIAL(9600);
+  // Enables serial if _DEBUG is defined or _SERIAL is defined
+  SERIAL_BEGIN(9600);
 
   // 7s delay to allow for startup of IR detectors
   delay(7000);

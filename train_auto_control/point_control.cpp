@@ -9,13 +9,21 @@ PointsDirection g_targetYPointStatus;
 // point status. INVERT_X_POINT_FEEDBACK can be used to
 // control whether a 0 input refers to being aligned for 
 // train A or B. Returns which train the point is set for.
-PointsDirection GetXPointFeedbackStatus()
+PointsDirection GetXPointFeedbackStatus(uint16_t tries)
 {
   bool xPlatAPinFeedback = digitalRead(POINT_X_PLAT_A_FEEDBACK_PIN) ^ INVERT_X_PLAT_A_POINT_FEEDBACK;
   bool xPlatBPinFeedback = digitalRead(POINT_X_PLAT_B_FEEDBACK_PIN) ^ INVERT_X_PLAT_B_POINT_FEEDBACK;
   
   if (xPlatAPinFeedback && !xPlatBPinFeedback) { return PointsDirection::ForTrainA; }
   if (!xPlatAPinFeedback && xPlatBPinFeedback) { return PointsDirection::ForTrainB; }
+
+  if (tries)
+  {
+    return GetXPointFeedbackStatus(tries - 1);
+  }
+
+  if (xPlatAPinFeedback && xPlatBPinFeedback) { PRINTLN("X Both high"); }
+  else { PRINTLN("X Both Low"); }
   return PointsDirection::Invalid;
 }
 
@@ -23,13 +31,21 @@ PointsDirection GetXPointFeedbackStatus()
 // point status. INVERT_Y_POINT_FEEDBACK can be used to
 // control whether a 0 input refers to being aligned for 
 // train A or B. Returns which train the point is set for.
-PointsDirection GetYPointFeedbackStatus()
+PointsDirection GetYPointFeedbackStatus(uint16_t tries)
 {
   bool yPlatAPinFeedback = digitalRead(POINT_Y_PLAT_A_FEEDBACK_PIN) ^ INVERT_Y_PLAT_A_POINT_FEEDBACK;
   bool yPlatBPinFeedback = digitalRead(POINT_Y_PLAT_B_FEEDBACK_PIN) ^ INVERT_Y_PLAT_B_POINT_FEEDBACK;
 
   if (yPlatAPinFeedback && !yPlatBPinFeedback) { return PointsDirection::ForTrainA; }
   if (!yPlatAPinFeedback && yPlatBPinFeedback) { return PointsDirection::ForTrainB; }
+
+  if (tries)
+  {
+    return GetYPointFeedbackStatus(tries - 1);
+  }
+
+  if (yPlatAPinFeedback && yPlatBPinFeedback) { PRINTLN("Y Both high"); }
+  else { PRINTLN("Y Both Low"); }
   return PointsDirection::Invalid;
 }
 

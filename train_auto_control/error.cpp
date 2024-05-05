@@ -20,9 +20,14 @@ void WriteError()
   uint8_t error = 0;
   if (g_currentStatus >= TrainStatus::TrainErrorBase)
   {
-    DEBUG_PRINT("Error: "); DEBUG_PRINTLN(StateToString(g_currentStatus));
+    PRINT("Error: "); PRINTLN(StateToString(g_currentStatus));
     error = static_cast<uint8_t>(g_currentStatus) - static_cast<uint8_t>(TrainStatus::TrainErrorBase);
   }
 
   WriteError(error);
+
+  if (g_currentStatus >= TrainStatus::TrainErrorBase)
+  {
+    delay(1000);
+  }
 }

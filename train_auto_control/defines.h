@@ -86,11 +86,16 @@
 // Will check every period, for count periods. 
 #define POINT_WAIT_COUNT  100
 #define POINT_WAIT_PERIOD 500
+#define POINT_TRIES 3
 
 // Control for maximum wait time in ms. Actual wait time will be
 // (IN_VOLTS * PLATFORM_DWELL_TIME) / HIGH_VOLTS 
 // Defaults to two minutes 
 #define PLATFORM_DWELL_TIME (2ul*60ul*1000ul)
+
+// Sometimes there's gaps in current detection, so we
+// set a small delay before declaring that we've lost the train
+#define SENSOR_DEBOUNCE_DELAY 250
 
 // Array of inputs for ease of setup code
 // New inputs will need to be added here,
@@ -122,16 +127,25 @@ static const int output_pins[OUTPUT_COUNT] = {
 // Debug code. Uncomment the debug define to
 // enable feedback via serial and slow down the 
 // main loop a bit
+#define _SERIAL 1
+#if defined(_SERIAL)
+#define PRINT(to_print) Serial.print(to_print)
+#define PRINTLN(to_print) Serial.println(to_print)
+#endif
 
 //#define _DEBUG 1
 #if defined(_DEBUG)
-#define DEBUG_SERIAL(baud) Serial.begin(baud)
 #define DEBUG_PRINT(to_print) Serial.print(to_print)
 #define DEBUG_PRINTLN(to_print) Serial.println(to_print)
 #define DEBUG_DELAY(delay_ms) delay(delay_ms)
 #else
-#define DEBUG_SERIAL(baud)
 #define DEBUG_PRINT(to_print)
 #define DEBUG_PRINTLN(to_print)
 #define DEBUG_DELAY(delay_ms)
+#endif
+
+#if defined(_SERIAL) || defined(_DEBUG)
+#define SERIAL_BEGIN(baud) Serial.begin(baud)
+#else
+#define SERIAL_BEGIN(baud)
 #endif

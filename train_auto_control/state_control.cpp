@@ -241,6 +241,8 @@ TrainStatus NextStatusForTrainADeparture()
 // do we want to wait for it to have fully crossed?)
 TrainStatus NextStatusForTrainAOnLine()
 {
+    static uint32_t trainALastSeen = 0;
+
     if (!TrainBInPlatform())
     {
         return TrainStatus::TrainMissing;
@@ -258,10 +260,17 @@ TrainStatus NextStatusForTrainAOnLine()
 
     if (TrainOnSlowY())
     {
+        trainALastSeen = millis();
         return TrainStatus::TrainAArrival;
     }
 
     if (TrainOnLine())
+    {
+        trainALastSeen = millis();
+        return TrainStatus::TrainAOnLine;
+    }
+
+    if (millis() - trainALastSeen < SENSOR_DEBOUNCE_DELAY)
     {
         return TrainStatus::TrainAOnLine;
     }
@@ -276,6 +285,8 @@ TrainStatus NextStatusForTrainAOnLine()
 // then stop and transition to both in platform.
 TrainStatus NextStatusForTrainAArrival()
 {
+    static uint32_t trainALastSeen = 0;
+
     if (!TrainBInPlatform())
     {
         return TrainStatus::TrainMissing;
@@ -293,10 +304,17 @@ TrainStatus NextStatusForTrainAArrival()
 
     if (TrainAInPlatform())
     {
+        trainALastSeen = millis();
         return TrainStatus::BothInPlatform;
     }
 
     if (TrainOnSlowY())
+    {
+        trainALastSeen = millis();
+        return TrainStatus::TrainAArrival;
+    }
+
+    if (millis() - trainALastSeen < SENSOR_DEBOUNCE_DELAY)
     {
         return TrainStatus::TrainAArrival;
     }
@@ -349,6 +367,8 @@ TrainStatus NextStatusForTrainBDeparture()
 // slow X inputs.
 TrainStatus NextStatusForTrainBOnLine()
 {
+    static uint32_t trainBLastSeen = 0;
+
     if (!TrainAInPlatform())
     {
         return TrainStatus::TrainMissing;
@@ -366,10 +386,17 @@ TrainStatus NextStatusForTrainBOnLine()
 
     if (TrainOnSlowX())
     {
+        trainBLastSeen = millis();
         return TrainStatus::TrainBArrival;
     }
 
     if (TrainOnLine())
+    {
+        trainBLastSeen = millis();
+        return TrainStatus::TrainBOnLine;
+    }
+
+    if(millis() - trainBLastSeen < SENSOR_DEBOUNCE_DELAY)
     {
         return TrainStatus::TrainBOnLine;
     }
@@ -384,6 +411,7 @@ TrainStatus NextStatusForTrainBOnLine()
 // transition to "both in platform", else 
 TrainStatus NextStatusForTrainBArrival()
 {
+    static uint32_t trainBLastSeen = 0;
     if (!TrainAInPlatform())
     {
         return TrainStatus::TrainMissing;
@@ -401,15 +429,22 @@ TrainStatus NextStatusForTrainBArrival()
 
     if (TrainBInPlatform())
     {
+        trainBLastSeen = millis();
         return TrainStatus::BothInPlatform;
     }
 
     if (TrainOnSlowX())
     {
+        trainBLastSeen = millis();
         return TrainStatus::TrainBArrival;
     }
 
-    return TrainStatus::TrainMissing;
+    if(millis() - trainBLastSeen < SENSOR_DEBOUNCE_DELAY)
+    {
+        return TrainStatus::TrainBArrival;
+    }
+
+    return TrainStatus::InvalidState;
 }
 
 // We have a points failure. We should try to resolve this so
